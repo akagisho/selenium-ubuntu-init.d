@@ -1,0 +1,29 @@
+#!/usr/bin/perl
+
+### BEGIN INIT INFO
+# Provides:             Xvfb
+# Default-Start:        2 3 4 5
+# Default-Stop:         0 1 6
+# Short-Description:    Xvfb Server
+### END INIT INFO
+
+use warnings;
+use strict;
+use Daemon::Control;
+
+Daemon::Control->new({
+    name        => 'Xvfb Server',
+    lsb_start   => '',
+    lsb_stop    => '',
+    lsb_sdesc   => 'Xvfb Server',
+    lsb_desc    => 'Xvfb Server Daemon',
+    path        => '/etc/init.d/xvfb',
+    program     => '/usr/bin/Xvfb',
+    program_args => [
+        ':1 -screen 0 1024x768x8',
+    ],
+    pid_file    => '/var/run/xvfb.pid',
+    stdout_file => '/var/log/xvfb.log',
+    stderr_file => '/var/log/xvfb.log',
+    fork        => 2,
+})->run;
